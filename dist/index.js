@@ -52,7 +52,10 @@ function run() {
                 repo: github.context.repo.repo,
                 state: 'open',
             });
-            const prFromSourceToTarget = pulls.find(({ head, base }) => head.ref === sourceBranch && base.ref === targetBranch);
+            const prFromSourceToTarget = pulls.find(({ head, base }) => {
+                console.log(`Scanning pull requests, Source:${head.ref}, Base: ${base.ref}`);
+                return head.ref === sourceBranch && base.ref === targetBranch;
+            });
             if (!prFromSourceToTarget) {
                 // PR from {{ sourceBranch }} to {{ targetBranch }} already exists
                 core.setOutput(IS_PR_ALREADY_CREATED, 'false');
